@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Venv
+.venv/
+venv/
+env/
+
+# Env & секреты — НИКОГДА не коммитим
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.pid
+
+# Отчёты и мусор от задач Celery
+*.xlsx
+*.csv
+!tests/fixtures/*.csv
+/tmp/
