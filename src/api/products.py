@@ -1,13 +1,11 @@
 from fastapi import APIRouter
-from sqlalchemy import select
 
 from src.api.dependency import PaginationDep
 from src.database import async_session_maker
-from src.models import ProductsOrm
 from src.repositories.products import ProductRepository
 from src.schemas.products import ProductRequest
 
-router = APIRouter(prefix="/{category}/products")
+router = APIRouter(prefix="/products")
 
 @router.get("")
 async def get_products(
@@ -15,9 +13,22 @@ async def get_products(
         pagination: PaginationDep,
 ):
     async with async_session_maker() as session:
-        products = await ProductRepository(session=session).get_filter_product(
+        products = await ProductRepository(session).get_filter_product(
             limit=pagination.limit,
             offset=pagination.offset,
             filters=product_data
         )
-        return products
+        return {"status_code": 200, "data": products}
+
+@router.get("/{product_id}")
+async def get_product_by_id(product_id: int):
+    async with async_session_maker() as session:
+        product = await ProductRepository(session).get_one_or_none(id=product_id)
+        return {"status_code": 200, "data": product}
+
+
+@router.post("")
+async def create_product(product_data: ProductRequest):
+    async with async_session_maker() as session:
+        products = await ProductRepository(session).add(data=product_data)
+        return {"status_code": 200, "data": products}

@@ -31,4 +31,4 @@ class ProductRepository(BaseRepository):
         query = self._apply_filters(query=query, filters=filters)
         query = query.offset(offset).limit(limit)
         result = await self.session.execute(query)
-        return result.scalars.all()
+        return [self.schema.model_validate(el) for el in result.scalars.all()]
