@@ -10,6 +10,7 @@ class ProductsOrm(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(30))
     price: Mapped[float]
-    estimation: Mapped[float]
+    estimation: Mapped[float] = 0
     quantity: Mapped[int]
     category: Mapped[str]
+    description: Mapped[str | None] = mapped_column(None)

@@ -2,14 +2,14 @@ from sqlalchemy import select
 
 from src.models import ProductsOrm
 from src.repositories.base import BaseRepository
-from src.schemas.products import Product, ProductRequest
+from src.schemas.products import Product, ProductFilter
 
 
 class ProductRepository(BaseRepository):
     model = ProductsOrm
     schema = Product
 
-    def _apply_filters(self, query, filters: ProductRequest):
+    def _apply_filters(self, query, filters: ProductFilter):
         if filters.category is not None:
             query = query.where(ProductsOrm.category == filters.category)
         if filters.title is not None:
@@ -25,7 +25,7 @@ class ProductRepository(BaseRepository):
             self,
             limit: int,
             offset: int,
-            filters: ProductRequest
+            filters: ProductFilter
     ):
         query = select(self.model)
         query = self._apply_filters(query=query, filters=filters)
